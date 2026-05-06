@@ -2,7 +2,7 @@
 /target
 **/target
 Cargo.lock
-
+*.db*
 *.rlib
 *.rmeta
 *.d
@@ -11,6 +11,10 @@ Cargo.lock
 *.dll
 *.dylib
 
+/target/
+
+# Environment secrets
+.env
 .idea/
 .vscode/
 *.code-workspace

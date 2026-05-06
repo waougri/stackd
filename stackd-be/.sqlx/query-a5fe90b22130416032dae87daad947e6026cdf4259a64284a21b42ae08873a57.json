@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "\n        CREATE TABLE IF NOT EXISTS locations (\n            id INTEGER PRIMARY KEY,\n            name TEXT NOT NULL,\n            parent_id INTEGER\n        )\n        ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": []
+  },
+  "hash": "a5fe90b22130416032dae87daad947e6026cdf4259a64284a21b42ae08873a57"
+}

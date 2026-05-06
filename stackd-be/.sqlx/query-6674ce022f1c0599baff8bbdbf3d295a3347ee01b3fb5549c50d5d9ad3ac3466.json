@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "UPDATE  items set name = $1 WHERE id = $2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 2
+    },
+    "nullable": []
+  },
+  "hash": "6674ce022f1c0599baff8bbdbf3d295a3347ee01b3fb5549c50d5d9ad3ac3466"
+}
