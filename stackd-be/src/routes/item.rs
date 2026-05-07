@@ -44,7 +44,10 @@ impl Item {
         Ok((StatusCode::OK, Json(res)))
     }
 
-    async fn get_by_id(State(state): State<Arc<AppState>>, id: String) -> HttpResponse<Self> {
+    async fn get_by_id(
+        State(state): State<Arc<AppState>>,
+        Path(id): Path<String>,
+    ) -> HttpResponse<Self> {
         let res = sqlx::query_as!(Item, "SELECT * FROM items WHERE id = $1", id)
             .fetch_optional(&state.pool)
             .await
@@ -138,7 +141,7 @@ impl Item {
             });
 
         Ok((
-            StatusCode::NO_CONTENT,
+            StatusCode::OK,
             Json(StackdMessage {
                 message: format!("item {} deleted", &id),
             }),

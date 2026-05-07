@@ -14,56 +14,7 @@ use std::{
     sync::Arc,
 };
 
-async fn setup_db(state: Arc<AppState>) -> Result<(), sqlx::Error> {
-
-    tracing::info!("Setting up database");
-    tracing::info!("Creating items DB");
-    sqlx::query!(
-        r#"
-        CREATE TABLE IF NOT EXISTS items(
-        id  TEXT PRIMARY KEY,
-        name TEXT NOT NULL UNIQUE
-        )
-    "#,
-    )
-    .execute(&state.pool)
-    .await?;
-
-    tracing::info!("Creating location DB");
-    sqlx::query!(
-        r#"
-        CREATE TABLE IF NOT EXISTS locations (
-            id INTEGER PRIMARY KEY,
-            name TEXT NOT NULL,
-            parent_id INTEGER
-        )
-        "#
-    )
-    .execute(&state.pool)
-    .await?;
-
-    tracing::info!("Creating inventory DB");
-    sqlx::query!(
-        r#"
-        CREATE TABLE IF NOT EXISTS inventory (
-            id INTEGER PRIMARY KEY,
-            timestamp integer NOT NULL,
-            location_id INTEGER NOT NULL REFERENCES locations(id),
-            item_id TEXT NOT NULL REFERENCES items(id),
-            action_type TEXT NOT NULL,
-            value INTEGER NOT NULL
-
-        )
-        "#
-    )
-    .execute(&state.pool)
-    .await?;
-
-    Ok(())
-}
-
 #[tokio::main]
-
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     tracing_subscriber::fmt::init();
 
