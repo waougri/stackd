@@ -1,0 +1,32 @@
+{
+  "db_name": "SQLite",
+  "query": "select id, name, parent_id from locations where id\n         = ?",
+  "describe": {
+    "columns": [
+      {
+        "name": "id",
+        "ordinal": 0,
+        "type_info": "Text"
+      },
+      {
+        "name": "name",
+        "ordinal": 1,
+        "type_info": "Text"
+      },
+      {
+        "name": "parent_id",
+        "ordinal": 2,
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      false,
+      true
+    ]
+  },
+  "hash": "a4204fdc6209f30a7fc534bdd82df56cf2646990bb479353ec2e4e3c38ade7fc"
+}

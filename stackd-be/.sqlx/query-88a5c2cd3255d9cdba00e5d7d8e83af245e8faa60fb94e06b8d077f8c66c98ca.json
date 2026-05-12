@@ -1,0 +1,56 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT id, item_id, location_id, value,\n        action_type as 'action_type: ActionType',\n        CAST(timestamp AS TEXT) as 'timestamp: String',\n        move_id as 'move_id: String'\n FROM inventory\n WHERE item_id = ?\n ORDER BY timestamp DESC",
+  "describe": {
+    "columns": [
+      {
+        "name": "id",
+        "ordinal": 0,
+        "type_info": "Text"
+      },
+      {
+        "name": "item_id",
+        "ordinal": 1,
+        "type_info": "Text"
+      },
+      {
+        "name": "location_id",
+        "ordinal": 2,
+        "type_info": "Text"
+      },
+      {
+        "name": "value",
+        "ordinal": 3,
+        "type_info": "Integer"
+      },
+      {
+        "name": "action_type: ActionType",
+        "ordinal": 4,
+        "type_info": "Text"
+      },
+      {
+        "name": "timestamp: String",
+        "ordinal": 5,
+        "type_info": "Null"
+      },
+      {
+        "name": "move_id: String",
+        "ordinal": 6,
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      null,
+      true
+    ]
+  },
+  "hash": "88a5c2cd3255d9cdba00e5d7d8e83af245e8faa60fb94e06b8d077f8c66c98ca"
+}

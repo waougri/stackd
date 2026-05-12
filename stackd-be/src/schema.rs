@@ -1,50 +1,46 @@
-use crate::state::AppState;
 use axum::Json;
-use axum::extract::State;
 use axum::http::StatusCode;
-use serde::Deserialize;
-use serde::Serialize;
-use sqlx::FromRow;
-use sqlx::SqlitePool;
-use std::sync::Arc;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize, FromRow)]
-pub struct Location {
-    pub id: i64,
-    pub name: String,
-    pub parent_id: Option<i64>,
+#[derive(Debug, Serialize, Deserialize)]
+pub struct StackdMessage {
+    pub message: String,
 }
 
-impl Location {
-    pub async fn add_location(
-        State(state): State<Arc<AppState>>,
-        Json(payload): Json<Location>,
-    ) -> Result<StatusCode, (StatusCode, String)> {
-        let query = sqlx::query!(
-            "insert into locations (parent_id, name) values  (?, ?)",
-            payload.parent_id,
-            payload.name
+pub enum AppError {
+    SqlError(sqlx::Error),
+    UUIDParseError(uuid::Error),
+    NotFound(String),
+    NotAuthorized(String),
+    BadRequest(String),
+}
+impl axum::response::IntoResponse for AppError {
+    fn into_response(self) -> axum::response::Response {
+        let (status, message) = match self {
+            Self::SqlError(_) => (StatusCode::INTERNAL_SERVER_ERROR, "DB error"),
+            Self::NotFound(_id) => (StatusCode::NOT_FOUND, "Not found"),
+            Self::NotAuthorized(_id) => (StatusCode::UNAUTHORIZED, "Not authorized"),
+            Self::BadRequest(_message) => (StatusCode::BAD_REQUEST, "Bad request"),
+            Self::UUIDParseError(_id) => (
+                StatusCode::BAD_REQUEST,
+                "UUID parse error",
+            ),
+        };
+
+        (
+            status,
+            Json(StackdMessage {
+                message: message.into(),
+            }),
         )
-        .execute(&state.pool)
-        .await
-        .map_err(|err| (StatusCode::INTERNAL_SERVER_ERROR, err.to_string()));
-        Ok(StatusCode::CREATED)
+            .into_response()
     }
 }
 
-#[derive(Debug, Serialize, Deserialize, FromRow)]
-pub struct Inventory {
-    pub id: Option<i64>,
-    pub item_id: String,
-    pub location_id: i64,
-    pub quantity: i64,
-}
-
-impl Inventory {
-    pub async fn add_item_to_location(
-        State(state): State<Arc<AppState>>,
-        Json(payload): Json<Inventory>,
-    ) -> Result<StatusCode, (StatusCode, String)> {
-        Ok(StatusCode::CREATED)
+impl From<sqlx::Error> for AppError {
+    fn from(error: sqlx::Error) -> Self {
+        Self::SqlError(error)
     }
 }
+
+pub type HttpResponse<T> = Result<(StatusCode, Json<T>), AppError>;

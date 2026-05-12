@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "delete from locations where id = ?",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": []
+  },
+  "hash": "70ffdad4e3a1e3b4e293a9a9120b2e5281de076d7928b0283874d47bc441a7dd"
+}

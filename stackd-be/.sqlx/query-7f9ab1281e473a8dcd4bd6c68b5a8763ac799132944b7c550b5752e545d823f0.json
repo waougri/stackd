@@ -1,0 +1,20 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT COALESCE(\n                SUM(CASE WHEN action_type = 'ADD' THEN value ELSE -value END),\n                0\n             ) as quantity\n             FROM inventory\n             WHERE item_id = ? AND location_id = ?",
+  "describe": {
+    "columns": [
+      {
+        "name": "quantity",
+        "ordinal": 0,
+        "type_info": "Integer"
+      }
+    ],
+    "parameters": {
+      "Right": 2
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "7f9ab1281e473a8dcd4bd6c68b5a8763ac799132944b7c550b5752e545d823f0"
+}

@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "insert into locations (id, parent_id, name) values (?, ?, ?)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 3
+    },
+    "nullable": []
+  },
+  "hash": "3ba55dcc2a435c1981900677d6ab38846ad5c37ad2172b09fbfa6c6ab77a7928"
+}

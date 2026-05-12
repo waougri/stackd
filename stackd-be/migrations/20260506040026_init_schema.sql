@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS items (
 -- locations: Removed AUTOINCREMENT to allow WITHOUT ROWID.
 -- Note: You must provide the ID manually or use a UUID.
 CREATE TABLE IF NOT EXISTS locations (
-                                         id TEXT PRIMARY KEY NOT NULL,
+                                         id INTEGER PRIMARY KEY NOT NULL,
                                          name TEXT NOT NULL,
                                          parent_id TEXT -- Changed to TEXT to match UUID IDs
 ) WITHOUT ROWID;
