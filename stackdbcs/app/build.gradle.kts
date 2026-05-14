@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import com.android.build.api.dsl.ApplicationExtension
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -7,20 +10,16 @@ plugins {
     alias(libs.plugins.hilt)
 }
 
-
-android {
+extensions.configure<ApplicationExtension> {
     namespace = "com.example.stackd_bcs"
 
-    // fix this
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.example.stackd_bcs"
 
-        // recommended
         minSdk = 26
-
-        targetSdk = 36
+        targetSdk = 34
 
         versionCode = 1
         versionName = "1.0"
@@ -47,30 +46,25 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
     }
 
-    // add
-    kotlinOptions {
-        jvmTarget = "21"
-    }
-
     buildFeatures {
         compose = true
     }
 }
 
-// add
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
+}
+
 ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
 }
 
 dependencies {
 
-    // Existing
+    // Compose
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.camera.mlkit.vision)
-
-    implementation(
-        libs.androidx.compose.material.icons.extended
-    )
 
     implementation(libs.androidx.activity.compose)
 
@@ -78,6 +72,10 @@ dependencies {
 
     implementation(
         libs.androidx.compose.material3.adaptive.navigation.suite
+    )
+
+    implementation(
+        libs.androidx.compose.material.icons.extended
     )
 
     implementation(libs.androidx.compose.ui)
@@ -88,12 +86,14 @@ dependencies {
         libs.androidx.compose.ui.tooling.preview
     )
 
+    // Core Android
     implementation(libs.androidx.core.ktx)
 
     implementation(
         libs.androidx.lifecycle.runtime.ktx
     )
 
+    // Testing
     testImplementation(libs.junit)
 
     androidTestImplementation(
@@ -108,30 +108,26 @@ dependencies {
         libs.androidx.espresso.core
     )
 
-    androidTestImplementation(libs.androidx.junit)
-
-    debugImplementation(
-        libs.androidx.compose.ui.test.manifest
+    androidTestImplementation(
+        libs.androidx.junit
     )
 
     debugImplementation(
         libs.androidx.compose.ui.tooling
     )
 
-    // -----------------------------
-    // Hilt
-    // -----------------------------
+    debugImplementation(
+        libs.androidx.compose.ui.test.manifest
+    )
 
+    // Hilt
     implementation(libs.hilt.android)
 
     ksp(libs.hilt.compiler)
 
     implementation(libs.hilt.navigation.compose)
 
-    // -----------------------------
     // CameraX
-    // -----------------------------
-
     implementation(libs.camerax.core)
 
     implementation(libs.camerax.camera2)
@@ -140,32 +136,22 @@ dependencies {
 
     implementation(libs.camerax.view)
 
-    // -----------------------------
     // ML Kit
-    // -----------------------------
-
     implementation(libs.mlkit.barcode)
 
-    // -----------------------------
-    // Room
-    // -----------------------------
+    implementation(libs.androidx.camera.mlkit.vision)
 
+    // Room
     implementation(libs.room.runtime)
 
     implementation(libs.room.ktx)
 
     ksp(libs.room.compiler)
 
-    // -----------------------------
     // WorkManager
-    // -----------------------------
-
     implementation(libs.workmanager.ktx)
 
-    // -----------------------------
     // Ktor
-    // -----------------------------
-
     implementation(libs.ktor.client.android)
 
     implementation(
@@ -180,15 +166,9 @@ dependencies {
         libs.kotlinx.serialization.json
     )
 
-    // -----------------------------
     // Security
-    // -----------------------------
-
     implementation(libs.security.crypto)
 
-    // -----------------------------
     // Navigation
-    // -----------------------------
-
     implementation(libs.navigation.compose)
 }
